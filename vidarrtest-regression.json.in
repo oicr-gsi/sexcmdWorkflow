@@ -1,0 +1,96 @@
+[
+    {
+	"arguments": {
+            "sexcmd.inputFastq": {
+                "contents": {
+                    "configuration": "/.mounts/labs/gsi/testdata/sexcmd/inputs/ERR030872_1.subset.fastq.gz",
+                    "externalIds": [
+                        {
+                            "id": "TEST",
+                            "provider": "TEST"
+                        }
+                    ]
+                },
+                "type": "EXTERNAL"
+            },
+            "sexcmd.sexcmdReport.timeout": null,
+            "sexcmd.sexcmdReport.modules": "hg38-sexcmd-res/1.0 sexcmd/1.0",
+            "sexcmd.sexcmdReport.outputFilePrefix": "ERR030872_1",
+            "sexcmd.sexcmdReport.sequencingType": 2,
+            "sexcmd.sexcmdReport.sexModelType": "XY",
+            "sexcmd.sexcmdReport.referenceFasta": "$HG38_SEXCMD_RES_ROOT/sex_marker_filtered.hg38.final.fasta",
+            "sexcmd.sexcmdReport.jobMemory": null
+	},
+	"description": "sexcmd workflow test on ERR030872_1, NON EMPTY",
+	"engineArguments": {
+	    "write_to_cache": false,
+	    "read_from_cache": false
+	},
+	"id": "NONEMPTY_TEST",
+	"metadata": {
+	    "sexcmd.reportFile": {
+		"contents": [
+		    {
+			"outputDirectory": "@SCRATCH@/@DATE@_Workflow_sexcmd_NONEMPTY_TEST_@JENKINSID@"
+		    }
+		],
+		"type": "ALL"
+	    }
+	},
+	"validators": [
+	    {
+		"metrics_calculate": "@CHECKOUT@/test/calculate.sh",
+		"metrics_compare": "@CHECKOUT@/test/compare.sh",
+		"output_metrics": "/.mounts/labs/gsi/testdata/sexcmd/output_metrics/NONEMPTY_TEST.metrics",
+		"type": "script"
+	    }
+	]
+    },
+    {
+        "arguments": {
+            "sexcmd.inputFastq": {
+                "contents": {
+                    "configuration": "/.mounts/labs/gsi/testdata/sexcmd/inputs/ERNA_0079.subset.fastq.gz",
+                    "externalIds": [
+                        {
+                            "id": "TEST",
+                            "provider": "TEST"
+                        }
+                    ]
+                },
+                "type": "EXTERNAL"
+            },
+            "sexcmd.sexcmdReport.timeout": null,
+            "sexcmd.sexcmdReport.modules": "hg38-sexcmd-res/1.0 sexcmd/1.0",
+            "sexcmd.sexcmdReport.outputFilePrefix": "ERNA_0079SUBSET",
+            "sexcmd.sexcmdReport.sequencingType": 2,
+            "sexcmd.sexcmdReport.sexModelType": "XY",
+            "sexcmd.sexcmdReport.referenceFasta": "$HG38_SEXCMD_RES_ROOT/sex_marker_filtered.hg38.final.fasta",
+            "sexcmd.sexcmdReport.jobMemory": null
+        },
+        "description": "sexcmd workflow test on ERNA_0079SUBSET, EMPTY",
+        "engineArguments": {
+            "write_to_cache": false,
+            "read_from_cache": false
+        },
+        "id": "EMPTY_TEST",
+        "metadata": {
+            "sexcmd.reportFile": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sexcmd_EMPTY_TEST_@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            }
+        },
+        "validators": [
+            {
+                "metrics_calculate": "@CHECKOUT@/test/calculate.sh",
+                "metrics_compare": "@CHECKOUT@/test/compare.sh",
+                "output_metrics": "/.mounts/labs/gsi/testdata/sexcmd/output_metrics/EMPTY_TEST.metrics",
+                "type": "script"
+            }
+        ]
+    } 
+]
