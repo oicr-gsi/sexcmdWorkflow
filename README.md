@@ -27,11 +27,6 @@ Parameter|Value|Description
 `sexcmdReport.sequencingType`|Int|1:Whole Exome Seq, 2:RNA-Seq, 3:Whole Genome Seq
 
 
-#### Optional workflow parameters:
-Parameter|Value|Default|Description
----|---|---|---
-
-
 #### Optional task parameters:
 Parameter|Value|Default|Description
 ---|---|---|---
