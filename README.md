@@ -61,7 +61,7 @@ it will still generate a report which would say that sex is UNDEFINED
  
 ### Generate report
  
-'''
+```
  
    touch PREFIX.OUTPUT
    Rscript  SEXCMD.R 
@@ -88,7 +88,7 @@ it will still generate a report which would say that sex is UNDEFINED
        m.close()
  
  
-'''
+```
 ## Support
 
 For support, please file an issue on the [Github project](https://github.com/oicr-gsi) or send an email to gsi@oicr.on.ca .
