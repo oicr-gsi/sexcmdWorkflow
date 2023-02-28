@@ -1,0 +1,39 @@
+## Commands
+This section lists command(s) run by WORKFLOW workflow
+
+* Running SEXCMD workflow
+
+The workflow accepts a single fastq file which may be any of R1 or R2 files for paired reads sequencing.
+In a case when the workflow fails to find enough information to deduce the sex of the donor
+it will still generate a report which would say that sex is UNDEFINED
+
+### Generate report
+
+'''
+
+  touch PREFIX.OUTPUT
+  Rscript  SEXCMD.R 
+          -m REFERENCE_FASTA
+          -t SEQUENCING_TYPE
+          -s SEX_MODEL
+          -f INPUT_FASTQ
+          -p OUTPUT_PREFIX
+
+  python3 snippet:
+
+  outputFile = "PREFIX.OUTPUT"
+  reportString = "Sex_Determination\tRatio of X and Y counts is NA\tSex of this sample BASENAME_OF_FASTQ is UNDEFINED\n"
+  numberOfLines = 0
+
+  with open(outputFile, "r") as inp:
+      numberOfLines = len(inp.readlines())
+  inp.close()
+
+  if numberOfLines == 0:
+      """Write down the string"""
+      with open(outputFile, "w") as m:
+          m.writelines(reportString)
+      m.close()
+
+
+'''

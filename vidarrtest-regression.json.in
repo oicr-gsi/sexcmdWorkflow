@@ -3,7 +3,7 @@
 	"arguments": {
             "sexcmd.inputFastq": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/sexcmd/inputs/ERR030872_1.subset.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/sexcmd/input_data/ERR030872_1.subset.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -50,7 +50,7 @@
         "arguments": {
             "sexcmd.inputFastq": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/sexcmd/inputs/ERNA_0079.subset.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/sexcmd/input_data/ERNA_0079.subset.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
