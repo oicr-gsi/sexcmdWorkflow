@@ -1,3 +1,3 @@
 #! /usr/bin/env bash
 cd $1
-cat *.OUTPUT  | md5sum
+tail -n 1 *.OUTPUT  | sed 's!/.*/!!' | sed 's/.*Sex/Sex/' | md5sum
