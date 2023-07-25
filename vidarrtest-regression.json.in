@@ -13,9 +13,22 @@
                 },
                 "type": "EXTERNAL"
             },
+            "sexcmd.inputBam": {
+                "contents": {
+                    "configuration": "/.mounts/labs/gsi/testdata/sexcmd/input_data/ERR030872_1.bam",
+                    "externalIds": [
+                        {
+                            "id": "TEST",
+                            "provider": "TEST"
+                        }
+                    ]
+                },
+                "type": "EXTERNAL"
+            },
+            "sexcmd.outputFileNamePrefix": "ERR030872_1",
             "sexcmd.sexcmdReport.timeout": null,
             "sexcmd.sexcmdReport.modules": "hg38-sexcmd-res/1.0 sexcmd/1.0",
-            "sexcmd.sexcmdReport.outputFilePrefix": "ERR030872_1",
+            "sexcmd.sexcmdReport.outputFilePrefix": null,
             "sexcmd.sexcmdReport.sequencingType": 2,
             "sexcmd.sexcmdReport.sexModelType": "XY",
             "sexcmd.sexcmdReport.referenceFasta": "$HG38_SEXCMD_RES_ROOT/sex_marker_filtered.hg38.final.fasta",
@@ -60,9 +73,22 @@
                 },
                 "type": "EXTERNAL"
             },
+            "sexcmd.inputBam": {
+                "contents": {
+                    "configuration": "/.mounts/labs/gsi/testdata/sexcmd/input_data/ERNA_0079.bam",
+                    "externalIds": [
+                        {
+                            "id": "TEST",
+                            "provider": "TEST"
+                        }
+                    ]
+                },
+                "type": "EXTERNAL"
+            },
+            "sexcmd.outputFileNamePrefix": "ERNA_0079SUBSET",
             "sexcmd.sexcmdReport.timeout": null,
             "sexcmd.sexcmdReport.modules": "hg38-sexcmd-res/1.0 sexcmd/1.0",
-            "sexcmd.sexcmdReport.outputFilePrefix": "ERNA_0079SUBSET",
+            "sexcmd.sexcmdReport.outputFilePrefix": null,
             "sexcmd.sexcmdReport.sequencingType": 2,
             "sexcmd.sexcmdReport.sexModelType": "XY",
             "sexcmd.sexcmdReport.referenceFasta": "$HG38_SEXCMD_RES_ROOT/sex_marker_filtered.hg38.final.fasta",
