@@ -1,6 +1,8 @@
 # sexcmd
 
 SEXCMD workflow relies on sex-specific markers to determine the sex of the analyzed sample. Forked from SEXCMD repo by Seongmun Jeong
+The workflow will produce a report which provides a prediction of sex of the input sample. Accuracy estimate is provided unless
+sex is UNDEFINED. SEXCMD will not predict sex if there is not enough information (reads aligned to sex-specific loci).
 
 ## Dependencies
 
@@ -24,18 +26,27 @@ java -jar cromwell.jar run sexcmd.wdl --inputs inputs.json
 Parameter|Value|Description
 ---|---|---
 `inputFastq`|File|input fastq file
+`inputBam`|File|Input alignments in .bam format for the same fastq file
+`outputFileNamePrefix`|String|Output file prefix
 `sexcmdReport.sequencingType`|Int|1:Whole Exome Seq, 2:RNA-Seq, 3:Whole Genome Seq
 
 
 #### Optional task parameters:
 Parameter|Value|Default|Description
 ---|---|---|---
+`makeStats.jobMemory`|Int|6|Memory (GB) allocated for this job
+`makeStats.timeout`|Int|4|Number of hours before task timeout
+`makeStats.modules`|String|"samtools/1.14"|Modules needed to run SEXCMD
+`makeStats.outputPrefix`|String|"STATREPORT"|Custamizable output file name prefix
 `sexcmdReport.referenceFasta`|String|"$HG38_SEXCMD_RES_ROOT/sex_marker_filtered.hg38.final.fasta"|Marker reference file, comes from a resource module
 `sexcmdReport.outputFilePrefix`|String|"SEXCMD"|Prefix of the report file to be provisioned
 `sexcmdReport.sexModelType`|String|"XY"|Sex determination system type : XY or ZW
 `sexcmdReport.jobMemory`|Int|10|Memory (GB) allocated for this job
 `sexcmdReport.timeout`|Int|4|Number of hours before task timeout
 `sexcmdReport.modules`|String|"hg38-sexcmd-res/1.0 sexcmd/1.0"|Modules needed to run SEXCMD
+`estimateAccuracy.minLength`|Int|80|Hard threshold for minimum length, if average read length is less we have low accuracy (<60%)
+`estimateAccuracy.jobMemory`|Int|4|Memory (GB) allocated for this job
+`estimateAccuracy.timeout`|Int|4|Number of hours before task timeout
 
 
 ### Outputs
@@ -46,7 +57,7 @@ Output | Type | Description
 
 
 ## Commands
-This section lists command(s) run by WORKFLOW workflow
+This section lists command(s) run by SEXCMD workflow
  
 * Running SEXCMD workflow
  
@@ -55,6 +66,15 @@ In a case when the workflow fails to find enough information to deduce the sex o
 it will still generate a report which would say that sex is UNDEFINED
  
 ### Generate report
+ 
+```
+
+   set -euo pipefail
+   samtools stats INPUT_BAM | grep ^SN > OUTPUT.stats
+   
+```
+ 
+### Generate SEXCMD report
  
 ```
  
@@ -82,8 +102,61 @@ it will still generate a report which would say that sex is UNDEFINED
            m.writelines(reportString)
        m.close()
  
+```
+ 
+### Generate final report with Accuracy appended
  
 ```
+ 
+   touch ~{outputFileNamePrefix}.report
+ 
+   python3 snippet:
+ 
+     coefficients = {"unmapped ratio": {"intercept": 0.9346, "slope": -0.3658},
+                     "insert size standard deviation:": {"intercept": 0.9068, "slope": -0.0001}}
+ 
+     def convert_value(value: str):
+         try:
+             return int(value)
+         except ValueError:
+             return float(value)
+         print(f'Unable to convert [{value}], recording as-is')
+         return value
+ 
+     metrics = {}
+     with open("~{bamStatFile}", "r") as samstats:
+             data_lines = [line.strip() for line in samstats if line.startswith('SN')]
+             for line in data_lines:
+                 fields = line.split("\t")
+                 if len(fields) >= 3:
+                     metrics[fields[1]] = convert_value(fields[2])
+ 
+     if "reads unmapped:" in metrics.keys() and "sequences:" in metrics.keys() and metrics["sequences:"] > 0:
+         metrics["unmapped ratio"] = round(metrics["reads unmapped:"]/metrics["sequences:"], 3)
+ 
+     accuracy = 1.0
+     if "average length:" in metrics.keys() and metrics["average length:"] <= ~{minLength}:
+         accuracy = 0
+     else:
+         for c in coefficients.keys():
+             if c in metrics.keys():
+                 estimated = coefficients[c]["intercept"] + metrics[c]*coefficients[c]["slope"]
+                 if estimated < accuracy:
+                     accuracy = round(estimated, 3)
+ 
+     with open("~{sexcmdReport}", "r") as sexinfo:
+         infolines = [line for line in sexinfo]
+ 
+     if accuracy > 0:
+         infolines.append(f'Estimated Accuracy is ~ {accuracy*100}%\n')
+     else:
+         infolines.append("Estimated Accuracy is < 60%\n")
+ 
+     with open("~{outputFileNamePrefix}.report", "w") as out:
+         out.writelines(infolines)
+ 
+```
+
 ## Support
 
 For support, please file an issue on the [Github project](https://github.com/oicr-gsi) or send an email to gsi@oicr.on.ca .

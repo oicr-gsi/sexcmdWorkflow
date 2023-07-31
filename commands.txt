@@ -7,9 +7,18 @@ The workflow accepts a single fastq file which may be any of R1 or R2 files for 
 In a case when the workflow fails to find enough information to deduce the sex of the donor
 it will still generate a report which would say that sex is UNDEFINED
 
-### Generate report
+### Generate stats for Alignments
 
-'''
+```
+
+    set -euo pipefail
+    samtools stats INPUT_BAM | grep ^SN > OUTPUT.stats
+  
+```
+
+### Generate SEXCMD report
+
+```
 
   touch PREFIX.OUTPUT
   Rscript  SEXCMD.R 
@@ -35,5 +44,57 @@ it will still generate a report which would say that sex is UNDEFINED
           m.writelines(reportString)
       m.close()
 
+```
 
-'''
+### Generate final report with Accuracy appended
+
+```
+
+  touch ~{outputFileNamePrefix}.report
+
+  python3 snippet:
+
+    coefficients = {"unmapped ratio": {"intercept": 0.9346, "slope": -0.3658},
+                    "insert size standard deviation:": {"intercept": 0.9068, "slope": -0.0001}}
+
+    def convert_value(value: str):
+        try:
+            return int(value)
+        except ValueError:
+            return float(value)
+        print(f'Unable to convert [{value}], recording as-is')
+        return value
+
+    metrics = {}
+    with open("~{bamStatFile}", "r") as samstats:
+            data_lines = [line.strip() for line in samstats if line.startswith('SN')]
+            for line in data_lines:
+                fields = line.split("\t")
+                if len(fields) >= 3:
+                    metrics[fields[1]] = convert_value(fields[2])
+
+    if "reads unmapped:" in metrics.keys() and "sequences:" in metrics.keys() and metrics["sequences:"] > 0:
+        metrics["unmapped ratio"] = round(metrics["reads unmapped:"]/metrics["sequences:"], 3)
+
+    accuracy = 1.0
+    if "average length:" in metrics.keys() and metrics["average length:"] <= ~{minLength}:
+        accuracy = 0
+    else:
+        for c in coefficients.keys():
+            if c in metrics.keys():
+                estimated = coefficients[c]["intercept"] + metrics[c]*coefficients[c]["slope"]
+                if estimated < accuracy:
+                    accuracy = round(estimated, 3)
+
+    with open("~{sexcmdReport}", "r") as sexinfo:
+        infolines = [line for line in sexinfo]
+
+    if accuracy > 0:
+        infolines.append(f'Estimated Accuracy is ~ {accuracy*100}%\n')
+    else:
+        infolines.append("Estimated Accuracy is < 60%\n")
+
+    with open("~{outputFileNamePrefix}.report", "w") as out:
+        out.writelines(infolines)
+
+```
