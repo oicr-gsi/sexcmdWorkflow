@@ -1,3 +1,5 @@
+## 1.2.0 - 2024-06-25
+[GRD-797](https://jira.oicr.on.ca/browse/GRD-797) - add vidarr labels to outputs (changes to medata only)
 ## 1.1.0 - 2023-07-31
 - Tagging after testing, this version accepts both fastq and bam inputs. see GRD-602 for details
 ## Unreleased - 2023-07-25
