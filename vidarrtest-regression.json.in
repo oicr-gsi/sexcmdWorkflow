@@ -3,7 +3,7 @@
 	"arguments": {
             "sexcmd.inputFastq": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/sexcmd/input_data/ERR030872_1.subset.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/sexcmd/test_inputs/ERR_Test.subset.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -15,7 +15,7 @@
             },
             "sexcmd.inputBam": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/sexcmd/input_data/ERR030872_1.bam",
+                    "configuration": "/.mounts/labs/gsi/testdata/sexcmd/test_inputs/ERR_Test.bam",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -25,7 +25,7 @@
                 },
                 "type": "EXTERNAL"
             },
-            "sexcmd.outputFileNamePrefix": "ERR030872_1",
+            "sexcmd.outputFileNamePrefix": "ERR.Test",
             "sexcmd.makeStats.jobMemory": null,
             "sexcmd.makeStats.modules": null,
             "sexcmd.makeStats.outputPrefix": null,
@@ -41,7 +41,7 @@
             "sexcmd.estimateAccuracy.minLength": null,
             "sexcmd.estimateAccuracy.timeout": null
 	},
-	"description": "sexcmd workflow test on ERR030872_1, NON EMPTY",
+	"description": "sexcmd workflow test, NON EMPTY",
 	"engineArguments": {
 	    "write_to_cache": false,
 	    "read_from_cache": false
@@ -61,7 +61,7 @@
 	    {
 		"metrics_calculate": "@CHECKOUT@/test/calculate.sh",
 		"metrics_compare": "@CHECKOUT@/test/compare.sh",
-		"output_metrics": "/.mounts/labs/gsi/testdata/sexcmd/output_metrics/NONEMPTY_TEST.metrics",
+		"output_metrics": "/.mounts/labs/gsi/testdata/sexcmd/output_metrics/workflow_test_01.metrics",
 		"type": "script"
 	    }
 	]
@@ -70,7 +70,7 @@
         "arguments": {
             "sexcmd.inputFastq": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/sexcmd/input_data/ERNA_0079.subset.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/sexcmd/test_inputs/ERNA_Test.subset.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -82,7 +82,7 @@
             },
             "sexcmd.inputBam": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/sexcmd/input_data/ERNA_0079.bam",
+                    "configuration": "/.mounts/labs/gsi/testdata/sexcmd/test_inputs/ERNA_Test.bam",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -92,7 +92,7 @@
                 },
                 "type": "EXTERNAL"
             },
-            "sexcmd.outputFileNamePrefix": "ERNA_0079SUBSET",
+            "sexcmd.outputFileNamePrefix": "ERNA.Test",
             "sexcmd.makeStats.jobMemory": null,
             "sexcmd.makeStats.modules": null,
             "sexcmd.makeStats.outputPrefix": null,
@@ -108,7 +108,7 @@
             "sexcmd.estimateAccuracy.minLength": null,
             "sexcmd.estimateAccuracy.timeout": null
         },
-        "description": "sexcmd workflow test on ERNA_0079SUBSET, EMPTY",
+        "description": "sexcmd workflow test, EMPTY",
         "engineArguments": {
             "write_to_cache": false,
             "read_from_cache": false
@@ -128,7 +128,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/test/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/test/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/sexcmd/output_metrics/EMPTY_TEST.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/sexcmd/output_metrics/workflow_test_02.metrics",
                 "type": "script"
             }
         ]
